@@ -65,7 +65,7 @@ export const WorkerForm = ({
         </select>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-2 w-full">
+      <div className="flex flex-col sm:flex-row gap-2 w-full mt-6">
         <button 
           type="submit"
           className="w-full sm:w-auto flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
