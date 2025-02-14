@@ -1,3 +1,4 @@
+// src/App.js
 import React, { useState } from 'react';
 import { TipInput } from './components/TipInput';
 import { WorkerForm } from './components/WorkerForm';
@@ -23,6 +24,21 @@ function App() {
     ...(parseFloat(hours) < 0 && { hours: 'Hours cannot be negative' }),
     ...(!name.trim() && { name: 'Name is required' })
   });
+
+  const handleResetAll = () => {
+    if (window.confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+      setTipData({ workers: [], totalTips: '' });
+      resetForm();
+    }
+  };
+
+  const resetForm = () => {
+    setName('');
+    setHours('');
+    setPercentage(1.0);
+    setErrors({});
+    setEditingId(null);
+  };
 
   const handleAddWorker = (e) => {
     e.preventDefault();
@@ -67,14 +83,6 @@ function App() {
     resetForm();
   };
 
-  const resetForm = () => {
-    setName('');
-    setHours('');
-    setPercentage(1.0);
-    setErrors({});
-    setEditingId(null);
-  };
-
   const handleDeleteWorker = (workerId) => {
     if (window.confirm('Are you sure you want to remove this worker?')) {
       setTipData(prev => ({
@@ -99,7 +107,15 @@ function App() {
 
   return (
     <div className="container">
-      <h1>Restaurant Tip Calculator</h1>
+      <div className="header-container">
+        <h1>Restaurant Tip Calculator</h1>
+        <button 
+          onClick={handleResetAll}
+          className="delete-button"
+        >
+          Reset All Data
+        </button>
+      </div>
       
       <TipInput
         totalTips={totalTips}
