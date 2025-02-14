@@ -109,12 +109,6 @@ function App() {
     <div className="container">
       <div className="header-container">
         <h1>Restaurant Tip Calculator</h1>
-        <button 
-          onClick={handleResetAll}
-          className="delete-button"
-        >
-          Reset All Data
-        </button>
       </div>
       
       <TipInput
@@ -153,6 +147,12 @@ function App() {
             <p>Total Effective Hours: {totalEffectiveHours.toFixed(2)}</p>
             <p>Tip per Effective Hour: {formatCurrency(tipPerHour)}</p>
           </div>
+          <button 
+            onClick={handleResetAll}
+            className="delete-button"
+          >
+            Reset All Data
+          </button>
         </div>
       )}
     </div>
