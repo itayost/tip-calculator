@@ -334,6 +334,10 @@ tr:hover {
   }
 }
 
+.button-container {
+  margin-top: 24px;
+}
+
 @media print {
   .container {
     box-shadow: none;
