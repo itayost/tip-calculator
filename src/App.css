@@ -163,10 +163,63 @@ input.error {
   background-color: #fef2f2;
 }
 
+.tip-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.tip-input-container input {
+  width: 100%;
+  padding-right: 120px; /* Space for formatted value */
+}
+
+.formatted-value {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-color);
+  opacity: 0.7;
+  font-size: 0.875rem;
+  pointer-events: none;
+}
+
+.form-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-field label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+}
+
 .error-message {
   color: var(--error-color);
   font-size: 0.875rem;
   margin-top: 0.25rem;
+}
+
+.warning-message {
+  color: var(--warning-color);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.info-message {
+  color: var(--text-color);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  opacity: 0.8;
 }
 
 button {

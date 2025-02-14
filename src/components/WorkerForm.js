@@ -12,22 +12,24 @@ export const WorkerForm = ({
   setErrors,
   handleSubmit,
   handleCancel,
-  totalHours = 0 // New prop to track total hours
+  totalHours = 0
 }) => {
   const [showWarning, setShowWarning] = useState(false);
   
-  // Enhanced validation with warnings
   const validateField = (field, value) => {
     switch (field) {
       case 'hours':
         const numHours = parseFloat(value);
+        if (isNaN(numHours)) {
+          return 'Please enter a valid number';
+        }
+        if (numHours < 0) {
+          return 'Hours cannot be negative';
+        }
         if (numHours > 12) {
           setShowWarning(true);
         } else {
           setShowWarning(false);
-        }
-        if (numHours < 0) {
-          return 'Hours cannot be negative';
         }
         break;
       case 'name':
@@ -44,7 +46,6 @@ export const WorkerForm = ({
     return null;
   };
 
-  // Real-time validation
   const handleFieldChange = (field, value, setter) => {
     const error = validateField(field, value);
     setter(value);
@@ -52,6 +53,33 @@ export const WorkerForm = ({
       ...prev,
       [field]: error
     }));
+  };
+
+  const handleHoursChange = (e) => {
+    let value = e.target.value;
+    // Allow empty input and decimals
+    if (value === '' || value === '.') {
+      handleFieldChange('hours', value, setHours);
+      return;
+    }
+
+    // Only allow numbers and one decimal point
+    if (!/^\d*\.?\d*$/.test(value)) {
+      return;
+    }
+
+    handleFieldChange('hours', value, setHours);
+  };
+
+  const formatHours = () => {
+    if (hours === '' || hours === '.') return;
+    
+    const numValue = parseFloat(hours);
+    if (!isNaN(numValue)) {
+      // Round to nearest 0.25
+      const roundedValue = (Math.round(numValue * 4) / 4).toFixed(2);
+      handleFieldChange('hours', roundedValue, setHours);
+    }
   };
 
   return (
@@ -76,12 +104,12 @@ export const WorkerForm = ({
           <label htmlFor="workerHours">Hours</label>
           <input
             id="workerHours"
-            type="number"
-            placeholder="Hours worked"
+            type="text"
+            inputMode="decimal"
+            placeholder="Enter hours (0.25, 0.5, 0.75, etc.)"
             value={hours}
-            onChange={(e) => handleFieldChange('hours', e.target.value, setHours)}
-            min="0"
-            step="0.5"
+            onChange={handleHoursChange}
+            onBlur={formatHours}
             className={errors.hours ? 'error' : ''}
             required
           />
@@ -91,9 +119,6 @@ export const WorkerForm = ({
               Warning: Hours entered seem high. Please verify.
             </div>
           )}
-          <div className="info-message">
-            Total shift hours: {totalHours} hours
-          </div>
         </div>
 
         <div className="form-field">
