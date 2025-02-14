@@ -148,12 +148,14 @@ function App() {
             <p>100% per Hour: {formatCurrency(tipPerHour)}</p>
             <p>70% per Hour: {formatCurrency(tipPerHour * 0.7)}</p>
           </div>
-          <button 
-            onClick={handleResetAll}
-            className="delete-button"
-          >
-            Reset All Data
-          </button>
+          <div className="button-container flex flex-col sm:flex-row gap-2 w-full">
+            <button 
+              onClick={handleResetAll}
+              className="delete-button"
+            >
+              Reset All Data
+            </button>
+          </div>
         </div>
       )}
     </div>

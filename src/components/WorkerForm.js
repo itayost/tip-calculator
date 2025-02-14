@@ -66,22 +66,24 @@ export const WorkerForm = ({
       </div>
 
       <div className="button-container flex flex-col sm:flex-row gap-2 w-full">
-        <button 
-          type="submit"
-          className="w-full sm:w-auto flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-        >
-          {editingId ? 'Update Worker' : 'Add Worker'}
-        </button>
-        
-        {editingId && (
+        <td className="actions">
           <button 
-            type="button" 
-            onClick={handleCancel}
-            className="w-full sm:w-auto flex-1 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900"
+            type="submit"
+            className="w-full sm:w-auto flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
           >
-            Cancel
+            {editingId ? 'Update Worker' : 'Add Worker'}
           </button>
-        )}
+          
+          {editingId && (
+            <button 
+              type="button" 
+              onClick={handleCancel}
+              className="w-full sm:w-auto flex-1 px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900"
+            >
+              Cancel
+            </button>
+          )}
+        </td>
       </div>
     </div>
   </form>
