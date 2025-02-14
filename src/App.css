@@ -19,32 +19,56 @@ body {
   line-height: 1.5;
   margin: 0;
   padding: 0;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .container {
+  width: 100%;
   max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
+  margin: 1rem auto;
+  padding: 1rem;
   background-color: var(--card-background);
   border-radius: 1rem;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
+@media (min-width: 768px) {
+  .container {
+    margin: 2rem auto;
+    padding: 2rem;
+  }
+}
+
 .header-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  gap: 1rem;
   margin-bottom: 2rem;
   width: 100%;
-  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .header-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
 .header-container h1 {
   margin: 0;
-  text-align: left;
-  font-size: 2rem;
+  text-align: center;
+  font-size: 1.75rem;
   font-weight: 700;
   color: var(--text-color);
+}
+
+@media (min-width: 768px) {
+  .header-container h1 {
+    text-align: left;
+    font-size: 2rem;
+  }
 }
 
 .header-container .delete-button {
@@ -59,10 +83,17 @@ h2 {
 }
 
 .input-group {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
   background-color: var(--background-color);
   border-radius: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .input-group {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
 }
 
 .input-field {
@@ -70,6 +101,12 @@ h2 {
   flex-direction: column;
   gap: 0.5rem;
   width: 100%;
+}
+
+label {
+  font-weight: 500;
+  color: var(--text-color);
+  font-size: 0.875rem;
 }
 
 input, select {
@@ -80,6 +117,15 @@ input, select {
   font-size: 1rem;
   transition: all 0.2s ease;
   background-color: white;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Fix for iOS Safari zoom on input focus */
+@media screen and (max-width: 768px) {
+  input, select {
+    font-size: 16px;
+  }
 }
 
 input:focus, select:focus {
@@ -100,6 +146,9 @@ input.error {
 }
 
 button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--primary-color);
   color: white;
   padding: 0.75rem 1.5rem;
@@ -110,6 +159,13 @@ button {
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  button {
+    width: auto;
+  }
 }
 
 button:hover {
@@ -140,27 +196,34 @@ button:active {
 
 .cancel-button {
   background-color: var(--text-color);
-  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .cancel-button {
+    margin-top: 0;
+    margin-left: 0.5rem;
+  }
 }
 
 .cancel-button:hover {
   background-color: #0f172a;
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr auto;
-  gap: 1rem;
-  align-items: start;
-}
-
 table {
   width: 100%;
   border-radius: 0.5rem;
-  overflow: hidden;
+  overflow-x: auto;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   margin-bottom: 1.5rem;
   background-color: white;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  table {
+    display: table;
+  }
 }
 
 thead {
@@ -168,9 +231,17 @@ thead {
 }
 
 th, td {
-  padding: 1rem;
+  padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  th, td {
+    padding: 1rem;
+    white-space: normal;
+  }
 }
 
 th {
@@ -188,78 +259,74 @@ tr:hover {
 
 .actions {
   display: flex;
+  flex-direction: column;
   gap: 0.5rem;
-  justify-content: flex-start;
+}
+
+@media (min-width: 768px) {
+  .actions {
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: flex-start;
+  }
 }
 
 .summary {
   background-color: var(--background-color);
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 0.5rem;
   margin-top: 1.5rem;
 }
 
+@media (min-width: 768px) {
+  .summary {
+    padding: 1.5rem;
+  }
+}
+
 .summary p {
   margin: 0.5rem 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .summary p {
+    font-size: 1.1rem;
+  }
 }
 
 .label-wrapper {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
   margin-bottom: 0.5rem;
 }
 
-.label-wrapper label {
-  font-weight: 500;
-  min-width: 120px;
+@media (min-width: 768px) {
+  .label-wrapper {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .label-wrapper label {
+    min-width: 120px;
+  }
 }
 
-@media (max-width: 768px) {
-  .container {
-    margin: 1rem;
-    padding: 1rem;
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+  input, select, button {
+    padding: 0.875rem;
   }
-
-  .header-container {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .header-container h1 {
-    text-align: center;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .label-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  th, td {
-    padding: 0.75rem;
-  }
-
-  .actions {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .actions button {
-    width: 100%;
+  
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1.5em;
+    padding-right: 2.5rem;
   }
 }
 

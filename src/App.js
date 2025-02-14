@@ -101,7 +101,7 @@ function App() {
 
   const tipPerHour = calculateTipPerHour(workers, totalTips);
   const totalEffectiveHours = workers.reduce(
-    (sum, worker) => sum + worker.hours * worker.percentage,
+    (sum, worker) => sum + worker.hours,
     0
   );
 
@@ -144,8 +144,9 @@ function App() {
           />
           
           <div className="summary">
-            <p>Total Effective Hours: {totalEffectiveHours.toFixed(2)}</p>
-            <p>Tip per Effective Hour: {formatCurrency(tipPerHour)}</p>
+            <p>Total hours: {totalEffectiveHours.toFixed(2)}</p>
+            <p>100% per Hour: {formatCurrency(tipPerHour)}</p>
+            <p>70% per Hour: {formatCurrency(tipPerHour * 0.7)}</p>
           </div>
           <button 
             onClick={handleResetAll}
