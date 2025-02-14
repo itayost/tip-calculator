@@ -142,7 +142,7 @@ export const WorkerForm = ({
             <button 
               type="button" 
               onClick={handleCancel}
-              className="cancel-button"
+              className="delete-button"
             >
               Cancel
             </button>

@@ -90,6 +90,7 @@ function App() {
         workers: prev.workers.filter(worker => worker.id !== workerId)
       }));
     }
+    resetForm();
   };
 
   const handleEditWorker = (worker) => {
@@ -148,13 +149,15 @@ function App() {
             <p>Tip per Effective Hour: {formatCurrency(tipPerHour)}</p>
           </div>
           
-          <div className="button-container">
-            <button 
-              onClick={handleResetAll}
-              className="delete-button"
-            >
-              Reset All Data
-            </button>
+          <div className="input-group">
+            <div className="button-container">
+              <button 
+                onClick={handleResetAll}
+                className="delete-button"
+              >
+                Reset All Data
+              </button>
+            </div>
           </div>
         </div>
       )}
