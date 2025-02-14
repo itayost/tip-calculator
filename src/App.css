@@ -199,7 +199,7 @@ button:active {
 }
 
 .cancel-button {
-  background-color: var(--text-color);
+  background-color: var(--danger-color);
   margin-top: 0.5rem;
 }
 
@@ -211,7 +211,7 @@ button:active {
 }
 
 .cancel-button:hover {
-  background-color: #0f172a;
+  background-color: var(--danger-hover);
 }
 
 table {
