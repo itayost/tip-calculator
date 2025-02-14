@@ -109,12 +109,6 @@ function App() {
     <div className="app-container">
       <div className="app-header">
         <h1>Restaurant Tip Calculator</h1>
-        <button 
-          onClick={handleResetAll}
-          className="delete-button"
-        >
-          Reset All Data
-        </button>
       </div>
       
       <TipInput

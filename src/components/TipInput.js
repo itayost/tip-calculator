@@ -2,7 +2,7 @@ import React from 'react';
 
 export const TipInput = ({ totalTips, setTotalTips, errors, setErrors }) => (
   <div className="input-group">
-    <div className="tip-input-wrapper">
+    <div className="form-field">
       <label htmlFor="totalTips">Total Tips Earned:</label>
       <input
         id="totalTips"
@@ -15,7 +15,7 @@ export const TipInput = ({ totalTips, setTotalTips, errors, setErrors }) => (
         placeholder="Enter total tips"
         className={errors.totalTips ? 'error' : ''}
       />
+      {errors.totalTips && <div className="error-message">{errors.totalTips}</div>}
     </div>
-    {errors.totalTips && <div className="error-message">{errors.totalTips}</div>}
   </div>
 );
