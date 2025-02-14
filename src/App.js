@@ -1,47 +1,28 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { TipInput } from './components/TipInput';
+import { WorkerForm } from './components/WorkerForm';
+import { WorkerTable } from './components/WorkerTable';
+import { useLocalStorage } from './hooks/useLocalStorage';
+import { calculateTipPerHour, formatCurrency } from './utils/calculations';
 import './App.css';
 
 function App() {
-  const [totalTips, setTotalTips] = useState('');
-  const [workers, setWorkers] = useState([]);
+  const [{ workers, totalTips }, setTipData] = useLocalStorage('tipCalculatorData', {
+    workers: [],
+    totalTips: ''
+  });
+  
   const [name, setName] = useState('');
   const [hours, setHours] = useState('');
   const [percentage, setPercentage] = useState(1.0);
   const [errors, setErrors] = useState({});
   const [editingId, setEditingId] = useState(null);
 
-  // Load saved data
-  useEffect(() => {
-    const savedData = localStorage.getItem('tipCalculatorData');
-    if (savedData) {
-      const { workers, totalTips } = JSON.parse(savedData);
-      setWorkers(workers);
-      setTotalTips(totalTips);
-    }
-  }, []);
-
-  // Save data
-  useEffect(() => {
-    localStorage.setItem('tipCalculatorData', JSON.stringify({
-      workers,
-      totalTips
-    }));
-  }, [workers, totalTips]);
-
-  const validateInputs = () => {
-    const newErrors = {};
-    if (parseFloat(totalTips) < 0) newErrors.totalTips = 'Tips cannot be negative';
-    if (parseFloat(hours) < 0) newErrors.hours = 'Hours cannot be negative';
-    if (!name.trim()) newErrors.name = 'Name is required';
-    return newErrors;
-  };
-
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('he-IL', {
-      style: 'currency',
-      currency: 'ILS'
-    }).format(amount);
-  };
+  const validateInputs = () => ({
+    ...(parseFloat(totalTips) < 0 && { totalTips: 'Tips cannot be negative' }),
+    ...(parseFloat(hours) < 0 && { hours: 'Hours cannot be negative' }),
+    ...(!name.trim() && { name: 'Name is required' })
+  });
 
   const handleAddWorker = (e) => {
     e.preventDefault();
@@ -59,24 +40,11 @@ function App() {
       percentage: parseFloat(percentage)
     };
     
-    setWorkers([...workers, newWorker]);
-    setName('');
-    setHours('');
-    setPercentage(1.0);
-    setErrors({});
-  };
-
-  const handleDeleteWorker = (workerId) => {
-    if (window.confirm('Are you sure you want to remove this worker?')) {
-      setWorkers(workers.filter(worker => worker.id !== workerId));
-    }
-  };
-
-  const handleEditWorker = (worker) => {
-    setEditingId(worker.id);
-    setName(worker.name);
-    setHours(worker.hours.toString());
-    setPercentage(worker.percentage);
+    setTipData(prev => ({
+      ...prev,
+      workers: [...prev.workers, newWorker]
+    }));
+    resetForm();
   };
 
   const handleUpdateWorker = (e) => {
@@ -88,155 +56,82 @@ function App() {
       return;
     }
 
-    setWorkers(workers.map(worker => 
-      worker.id === editingId 
-        ? { ...worker, name, hours: parseFloat(hours), percentage: parseFloat(percentage) }
-        : worker
-    ));
+    setTipData(prev => ({
+      ...prev,
+      workers: prev.workers.map(worker => 
+        worker.id === editingId 
+          ? { ...worker, name, hours: parseFloat(hours), percentage: parseFloat(percentage) }
+          : worker
+      )
+    }));
+    resetForm();
+  };
 
-    setEditingId(null);
+  const resetForm = () => {
     setName('');
     setHours('');
     setPercentage(1.0);
     setErrors({});
+    setEditingId(null);
   };
 
+  const handleDeleteWorker = (workerId) => {
+    if (window.confirm('Are you sure you want to remove this worker?')) {
+      setTipData(prev => ({
+        ...prev,
+        workers: prev.workers.filter(worker => worker.id !== workerId)
+      }));
+    }
+  };
+
+  const handleEditWorker = (worker) => {
+    setEditingId(worker.id);
+    setName(worker.name);
+    setHours(worker.hours.toString());
+    setPercentage(worker.percentage);
+  };
+
+  const tipPerHour = calculateTipPerHour(workers, totalTips);
   const totalEffectiveHours = workers.reduce(
     (sum, worker) => sum + worker.hours * worker.percentage,
     0
   );
 
-  const tipPerHour = totalEffectiveHours > 0 
-    ? (parseFloat(totalTips) || 0) / totalEffectiveHours 
-    : 0;
-
   return (
     <div className="container">
       <h1>Restaurant Tip Calculator</h1>
       
-      <div className="input-group">
-        <div className="label-wrapper">
-          <label>Total Tips Earned:</label>
-          <input
-            type="number"
-            value={totalTips}
-            onChange={(e) => {
-              setTotalTips(e.target.value);
-              setErrors({...errors, totalTips: null});
-            }}
-            placeholder="Enter total tips"
-            className={errors.totalTips ? 'error' : ''}
-          />
-        </div>
-        {errors.totalTips && <div className="error-message">{errors.totalTips}</div>}
-      </div>
+      <TipInput
+        totalTips={totalTips}
+        setTotalTips={(value) => setTipData(prev => ({ ...prev, totalTips: value }))}
+        errors={errors}
+        setErrors={setErrors}
+      />
 
-      <form onSubmit={editingId ? handleUpdateWorker : handleAddWorker} className="input-group">
-        <h2>{editingId ? 'Edit Worker' : 'Add Worker'}</h2>
-        <div className="form-row">
-          <div className="input-field">
-            <input
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                setErrors({...errors, name: null});
-              }}
-              className={errors.name ? 'error' : ''}
-              required
-            />
-            {errors.name && <div className="error-message">{errors.name}</div>}
-          </div>
-
-          <div className="input-field">
-            <input
-              type="number"
-              placeholder="Hours"
-              value={hours}
-              onChange={(e) => {
-                setHours(e.target.value);
-                setErrors({...errors, hours: null});
-              }}
-              min="0"
-              step="0.5"
-              className={errors.hours ? 'error' : ''}
-              required
-            />
-            {errors.hours && <div className="error-message">{errors.hours}</div>}
-          </div>
-
-          <select
-            value={percentage}
-            onChange={(e) => setPercentage(e.target.value)}
-          >
-            <option value={1.0}>100%</option>
-            <option value={0.7}>70%</option>
-          </select>
-
-          <button type="submit">
-            {editingId ? 'Update Worker' : 'Add Worker'}
-          </button>
-          
-          {editingId && (
-            <button 
-              type="button" 
-              onClick={() => {
-                setEditingId(null);
-                setName('');
-                setHours('');
-                setPercentage(1.0);
-                setErrors({});
-              }}
-              className="cancel-button"
-            >
-              Cancel
-            </button>
-          )}
-        </div>
-      </form>
+      <WorkerForm
+        editingId={editingId}
+        name={name}
+        setName={setName}
+        hours={hours}
+        setHours={setHours}
+        percentage={percentage}
+        setPercentage={setPercentage}
+        errors={errors}
+        setErrors={setErrors}
+        handleSubmit={editingId ? handleUpdateWorker : handleAddWorker}
+        handleCancel={resetForm}
+      />
 
       {workers.length > 0 && (
         <div>
           <h2>Distribution</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Hours</th>
-                <th>Percentage</th>
-                <th>Amount</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {workers.map((worker) => {
-                const amount = worker.hours * worker.percentage * tipPerHour;
-                return (
-                  <tr key={worker.id}>
-                    <td>{worker.name}</td>
-                    <td>{worker.hours}</td>
-                    <td>{worker.percentage === 0.7 ? '70%' : '100%'}</td>
-                    <td>{formatCurrency(amount)}</td>
-                    <td className="actions">
-                      <button 
-                        onClick={() => handleEditWorker(worker)}
-                        className="edit-button"
-                      >
-                        Edit
-                      </button>
-                      <button 
-                        onClick={() => handleDeleteWorker(worker.id)}
-                        className="delete-button"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <WorkerTable
+            workers={workers}
+            tipPerHour={tipPerHour}
+            formatCurrency={formatCurrency}
+            onEdit={handleEditWorker}
+            onDelete={handleDeleteWorker}
+          />
           
           <div className="summary">
             <p>Total Effective Hours: {totalEffectiveHours.toFixed(2)}</p>
