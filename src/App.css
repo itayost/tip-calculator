@@ -1,4 +1,102 @@
-/* Variables */
+/* Table Styles */
+.table-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: white;
+  border-radius: 0.5rem;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--background-color);
+  font-weight: 600;
+}
+
+.name-cell {
+  position: static;
+}
+
+/* Worker Name and Dropdown Styles */
+.worker-name-container {
+  position: relative;
+  display: inline-block;
+}
+
+.worker-name {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: var(--primary-color);
+  cursor: pointer;
+  min-width: unset;
+  text-align: left;
+}
+
+.worker-name:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  z-index: 9999;
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 120px;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  color: var(--text-color);
+  cursor: pointer;
+  min-width: unset;
+  font-size: 0.875rem;
+}
+
+.dropdown-item:hover {
+  background-color: var(--background-color);
+}
+
+.dropdown-item.delete {
+  color: var(--danger-color);
+}
+
+.dropdown-item.delete:hover {
+  background-color: #fee2e2;
+}
+
+/* Ensure dropdowns are above everything */
+.results-section {
+  position: relative;
+  z-index: 1;
+}
+
+.summary {
+  position: relative;
+  z-index: 1;
+}/* Variables */
 :root {
   --primary-color: #6366f1;
   --primary-hover: #4f46e5;
@@ -90,6 +188,7 @@ input:focus, select:focus {
 button {
   min-width: 200px;
   padding: 0.75rem 1.5rem;
+  margin: 0.2rem;
   border: none;
   border-radius: 0.5rem;
   font-size: 1rem;
@@ -105,7 +204,6 @@ button:hover {
 }
 
 .button-container {
-  margin-top: 1.5rem;
   display: flex;
   justify-content: flex-start;
 }
@@ -125,7 +223,7 @@ table {
   border-collapse: collapse;
   background-color: white;
   border-radius: 0.5rem;
-  overflow: hidden;
+  overflow: visible;
 }
 
 th, td {
@@ -167,13 +265,13 @@ th {
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 10;
+  z-index: 3;
   background-color: white;
   border: 1px solid var(--border-color);
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   min-width: 120px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .dropdown-item {
@@ -260,8 +358,7 @@ th {
   
   table {
     //display: block;
-    width: 100%;
-    overflow-x: hidden;
+    overflow-x: auto;
     white-space: nowrap;
   }
 
