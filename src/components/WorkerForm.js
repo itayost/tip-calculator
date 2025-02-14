@@ -15,8 +15,8 @@ export const WorkerForm = ({
 }) => (
   <form onSubmit={handleSubmit} className="input-group">
     <h2>{editingId ? 'Edit Worker' : 'Add Worker'}</h2>
-    <div className="input-field">
-      <div className="label-wrapper">
+    <div className="form-content">
+      <div className="form-field">
         <label htmlFor="workerName">Name</label>
         <input
           id="workerName"
@@ -30,10 +30,10 @@ export const WorkerForm = ({
           className={errors.name ? 'error' : ''}
           required
         />
+        {errors.name && <div className="error-message">{errors.name}</div>}
       </div>
-      {errors.name && <div className="error-message">{errors.name}</div>}
-
-      <div className="label-wrapper">
+      
+      <div className="form-field">
         <label htmlFor="workerHours">Hours</label>
         <input
           id="workerHours"
@@ -49,10 +49,10 @@ export const WorkerForm = ({
           className={errors.hours ? 'error' : ''}
           required
         />
+        {errors.hours && <div className="error-message">{errors.hours}</div>}
       </div>
-      {errors.hours && <div className="error-message">{errors.hours}</div>}
 
-      <div className="label-wrapper">
+      <div className="form-field">
         <label htmlFor="workerPercentage">Percentage</label>
         <select
           id="workerPercentage"
@@ -65,9 +65,10 @@ export const WorkerForm = ({
       </div>
 
       <div className="button-container">
-        <button type="submit" className="primary">
+        <button type="submit">
           {editingId ? 'Update Worker' : 'Add Worker'}
         </button>
+        
         {editingId && (
           <button 
             type="button" 

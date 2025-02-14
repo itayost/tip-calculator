@@ -106,9 +106,15 @@ function App() {
   );
 
   return (
-    <div className="container">
-      <div className="header-container">
+    <div className="app-container">
+      <div className="app-header">
         <h1>Restaurant Tip Calculator</h1>
+        <button 
+          onClick={handleResetAll}
+          className="delete-button"
+        >
+          Reset All Data
+        </button>
       </div>
       
       <TipInput
@@ -133,7 +139,7 @@ function App() {
       />
 
       {workers.length > 0 && (
-        <div>
+        <div className="results-section">
           <h2>Distribution</h2>
           <WorkerTable
             workers={workers}
@@ -144,11 +150,11 @@ function App() {
           />
           
           <div className="summary">
-            <p>Total hours: {totalEffectiveHours.toFixed(2)}</p>
-            <p>100% per Hour: {formatCurrency(tipPerHour)}</p>
-            <p>70% per Hour: {formatCurrency(tipPerHour * 0.7)}</p>
+            <p>Total Effective Hours: {totalEffectiveHours.toFixed(2)}</p>
+            <p>Tip per Effective Hour: {formatCurrency(tipPerHour)}</p>
           </div>
-          <div className="button-container flex flex-col sm:flex-row gap-2 w-full">
+          
+          <div className="button-container">
             <button 
               onClick={handleResetAll}
               className="delete-button"

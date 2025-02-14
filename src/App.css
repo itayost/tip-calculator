@@ -84,11 +84,31 @@ h2 {
 
 .input-group {
   margin-bottom: 1.5rem;
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: var(--background-color);
   border-radius: 0.5rem;
   width: 100%;
   box-sizing: border-box;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.form-field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-color);
 }
 
 @media (min-width: 768px) {
@@ -199,7 +219,7 @@ button:active {
 }
 
 .cancel-button {
-  background-color: var(--danger-color);
+  background-color: var(--text-color);
   margin-top: 0.5rem;
 }
 
@@ -211,7 +231,7 @@ button:active {
 }
 
 .cancel-button:hover {
-  background-color: var(--danger-hover);
+  background-color: #0f172a;
 }
 
 table {
@@ -334,8 +354,83 @@ tr:hover {
   }
 }
 
-.button-container {
-  margin-top: 24px;
+.tip-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .tip-input-wrapper {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .tip-input-wrapper label {
+    min-width: 120px;
+  }
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+thead {
+  background-color: var(--background-color);
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover {
+  background-color: var(--background-color);
+}
+
+.table-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .table-actions {
+    flex-direction: column;
+  }
+
+  th, td {
+    padding: 0.75rem;
+  }
+}
+
+.summary {
+  background-color: var(--background-color);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.summary p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
 @media print {

@@ -2,9 +2,10 @@ import React from 'react';
 
 export const TipInput = ({ totalTips, setTotalTips, errors, setErrors }) => (
   <div className="input-group">
-    <div className="label-wrapper">
-      <label>Total Tips Earned:</label>
+    <div className="tip-input-wrapper">
+      <label htmlFor="totalTips">Total Tips Earned:</label>
       <input
+        id="totalTips"
         type="number"
         value={totalTips}
         onChange={(e) => {
