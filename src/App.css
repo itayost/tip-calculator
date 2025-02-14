@@ -87,6 +87,8 @@ h2 {
   padding: 1rem;
   background-color: var(--background-color);
   border-radius: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
@@ -119,6 +121,8 @@ input, select {
   background-color: white;
   -webkit-appearance: none;
   appearance: none;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 /* Fix for iOS Safari zoom on input focus */
