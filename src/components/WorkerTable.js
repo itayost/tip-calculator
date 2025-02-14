@@ -28,7 +28,7 @@ export const WorkerTable = ({
               <td>{worker.percentage === 0.7 ? '70%' : '100%'}</td>
               <td>{formatCurrency(amount)}</td>
               <td>
-                <div>
+                <div className="table-actions">
                   <button 
                     onClick={() => onEdit(worker)}
                   >

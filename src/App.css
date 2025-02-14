@@ -166,6 +166,11 @@ th {
   opacity: 0.8;
 }
 
+.table-actions {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Mobile Adjustments */
 @media (max-width: 640px) {
   .app-container {
