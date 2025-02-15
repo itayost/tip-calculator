@@ -149,7 +149,8 @@ function App() {
               />
             </div>
             <p>Total Effective Hours: {totalEffectiveHours.toFixed(2)}</p>
-            <p>Tip per Effective Hour: {formatCurrency(tipPerHour)}</p>
+            <p>100% per Hour: {formatCurrency(tipPerHour)}</p>
+            <p>70% per Hour: {formatCurrency(tipPerHour * 0.7)}</p>
             <div className="button-container">
               <button 
                 onClick={() => window.print()}
