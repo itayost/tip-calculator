@@ -124,31 +124,52 @@ button:hover {
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-  border-radius: 0.5rem;  /* Optional: for rounded corners */
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);  /* Optional: for shadow */
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  background-color: white;
+  margin-bottom: 1.5rem;
 }
 
 table {
   width: 100%;
-  margin-bottom: 1.5rem;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   background-color: white;
-  border-radius: 0.5rem;
-
-}
-
-th, td {
-  padding: 1rem;
-  text-align:center ;
-  border-bottom: 1px solid var(--border-color);
-
 }
 
 th {
-  text-align: center;
   background-color: var(--background-color);
   font-weight: 600;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  border-bottom: 2px solid var(--border-color);
+  color: var(--text-color);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
+
+td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover {
+  background-color: var(--background-color);
+  transition: background-color 0.2s ease;
+}
+
+/* Column specific widths */
+th:nth-child(1), td:nth-child(1) { width: 30%; } /* Name */
+th:nth-child(2), td:nth-child(2) { width: 20%; } /* Hours */
+th:nth-child(3), td:nth-child(3) { width: 20%; } /* Percentage */
+th:nth-child(4), td:nth-child(4) { width: 30%; } /* Amount */
 
 /* Worker Name Dropdown */
 .worker-name-container {
@@ -220,7 +241,7 @@ th {
 }
 
 .summary {
-  padding: 1.5rem;
+  padding: 1rem;
   background-color: var(--background-color);
   border-radius: 0.5rem;
   margin-bottom: 1.5rem;
