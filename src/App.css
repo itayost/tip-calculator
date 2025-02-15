@@ -1,13 +1,13 @@
 :root {
-  --primary-color: #6366f1;
-  --primary-hover: #4f46e5;
-  --danger-color: #ef4444;
-  --danger-hover: #dc2626;
-  --warning-color: #f59e0b;
-  --background-color: #f8fafc;
-  --card-background: #ffffff;
-  --text-color: #1e293b;
-  --border-color: #e2e8f0;
+  --primary-color: #3b82f6;      /* Bright blue */
+  --primary-hover: #2563eb;      /* Darker blue for hover */
+  --danger-color: #f43f5e;       /* Softer red */
+  --danger-hover: #e11d48;       /* Darker red for hover */
+  --warning-color: #f59e0b;      /* Amber */
+  --background-color: #f8fafc;   /* Very light gray with slight blue tint */
+  --card-background: #ffffff;    /* Pure white */
+  --text-color: #334155;         /* Soft black with blue undertone */
+  --border-color: #e2e8f0;       /* Light gray for borders */
 }
 
 /* Base styles */
