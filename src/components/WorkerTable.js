@@ -33,7 +33,7 @@ export const WorkerTable = ({
           <tr>
             <th>Name</th>
             <th>Hours</th>
-            <th>Percentage</th>
+            <th>%</th>
             <th>Amount</th>
           </tr>
         </thead>
