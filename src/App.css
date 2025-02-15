@@ -89,8 +89,6 @@ input:focus, select:focus {
 
 /* Buttons */
 button {
-  display: flex;
-  justify-content: center;
   text-align: center;
   padding: 0.75rem 1.5rem;
   margin: 0.2rem;
@@ -110,7 +108,7 @@ button:hover {
 
 .button-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .delete-button {
@@ -122,19 +120,26 @@ button:hover {
 }
 
 /* Table */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 0.5rem;  /* Optional: for rounded corners */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);  /* Optional: for shadow */
+}
+
 table {
   width: 100%;
   margin-bottom: 1.5rem;
   border-collapse: collapse;
   background-color: white;
   border-radius: 0.5rem;
-  position: relative;
 
 }
 
 th, td {
   padding: 1rem;
-  text-align:start ;
+  text-align:center ;
   border-bottom: 1px solid var(--border-color);
 
 }
@@ -147,11 +152,12 @@ th {
 
 /* Worker Name Dropdown */
 .worker-name-container {
-  display: block;
+  position: static;
 
 }
 
 .worker-name {
+  position: static;
   background: none;
   border: none;
   padding: 0;
@@ -159,9 +165,7 @@ th {
   font: inherit;
   color: var(--text-color);
   cursor: pointer;
-  text-align: start;
-  display: inline-block;
-  position: fix;
+  text-align: center;
 }
 
 .worker-name:hover {
@@ -171,7 +175,6 @@ th {
 
 .dropdown-menu {
   position: absolute;
-  display: flex;
   background-color: white;
   border: 1px solid var(--border-color);
   border-radius: 0.5rem;
@@ -180,8 +183,8 @@ th {
 }
 
 .dropdown-item {
-  position:sticky ;
-  display: inline-block;
+  position: static;
+  display: block;
   width: 100%;
   text-align: left;
   padding: 0.75rem 1rem;
@@ -206,6 +209,11 @@ th {
 }
 
 /* Summary Section */
+
+.results-section {
+  width: 100%;
+
+}
 .results-section h2 {
   margin-bottom: 1rem;
   text-align: center;
@@ -245,22 +253,136 @@ th {
   opacity: 0.8;
 }
 
-/* Mobile Adjustments */
-@media (max-width: 640px) {
-  .app-container {
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
+
+
+
+
+/* Print styles */
+@media print {
+  /* Hide non-printable elements */
+  .input-group,
+  .button-container,
+  .worker-name button,
+  .dropdown-menu {
+    display: none !important;
   }
 
-  th, td {
-    padding: 0.75rem;
+  /* Reset page styles */
+  .app-container {
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    max-width: none;
   }
-  
-  table {
+
+  /* Print summary styles */
+  .print-summary {
+    padding: 20px;
+  }
+
+  .print-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .print-header h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+
+  .print-date {
+    font-size: 14px;
+    color: #666;
+    margin: 8px 0 0 0;
+  }
+
+  .print-overview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 1rem;
+    border: 1px solid #eee;
+    border-radius: 4px;
+  }
+
+  .overview-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .overview-item span {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  .overview-item strong {
+    font-size: 16px;
+  }
+
+  .print-table {
     width: 100%;
-    overflow-x: auto;
-    position: relative;
-    white-space: nowrap;
+    border-collapse: collapse;
+    margin: 2rem 0;
+  }
+
+  .print-table th,
+  .print-table td {
+    padding: 8px;
+    border: 1px solid #eee;
+    text-align: left;
+  }
+
+  .print-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+  }
+
+  .print-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    font-size: 12px;
+    color: #666;
+  }
+
+  /* Ensure page breaks don't split rows */
+  tr {
+    page-break-inside: avoid;
+  }
+
+  /* Add page numbers */
+  @page {
+    margin: 2cm;
+  }
+}
+
+/* Screen-only print button */
+.print-button {
+  display: flex;
+  justify-self: center;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+  background-color: var(--text-color);
+  color: white;
+}
+
+.print-button:hover {
+  background-color: var(--text-color);
+  opacity: 0.9;
+}
+
+/* Hide print summary on screen */
+.print-summary {
+  display: none;
+}
+
+@media print {
+  .print-button {
+    display: none;
   }
 }

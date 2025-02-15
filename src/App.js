@@ -1,8 +1,8 @@
-// src/App.js
 import React, { useState } from 'react';
 import { TipInput } from './components/TipInput';
 import { WorkerForm } from './components/WorkerForm';
 import { WorkerTable } from './components/WorkerTable';
+import PrintSummary from './components/PrintSummary';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { calculateTipPerHour, formatCurrency } from './utils/calculations';
 import './App.css';
@@ -89,8 +89,8 @@ function App() {
         ...prev,
         workers: prev.workers.filter(worker => worker.id !== workerId)
       }));
+      resetForm();
     }
-    resetForm();
   };
 
   const handleEditWorker = (worker) => {
@@ -135,29 +135,45 @@ function App() {
 
       {workers.length > 0 && (
         <div className="results-section">
-          <h2>Distribution</h2>
-          <WorkerTable
-            workers={workers}
-            tipPerHour={tipPerHour}
-            formatCurrency={formatCurrency}
-            onEdit={handleEditWorker}
-            onDelete={handleDeleteWorker}
-          />
-          
+          <div className="section-header">
+            <h2>Distribution</h2>
+          </div>
           <div className="summary">
+            <div className="table-container">
+              <WorkerTable
+                workers={workers}
+                tipPerHour={tipPerHour}
+                formatCurrency={formatCurrency}
+                onEdit={handleEditWorker}
+                onDelete={handleDeleteWorker}
+              />
+            </div>
             <p>Total Effective Hours: {totalEffectiveHours.toFixed(2)}</p>
             <p>Tip per Effective Hour: {formatCurrency(tipPerHour)}</p>
-          </div>
-          
-          <div className="input-group">
             <div className="button-container">
               <button 
-                onClick={handleResetAll}
-                className="delete-button"
+                onClick={() => window.print()}
+                className="print-button"
               >
-                Reset All Data
+                Print Summary
               </button>
             </div>
+          </div>
+
+          <PrintSummary 
+            workers={workers}
+            totalTips={totalTips}
+            tipPerHour={tipPerHour}
+            formatCurrency={formatCurrency}
+          />
+          
+          <div className="button-container">
+            <button 
+              onClick={handleResetAll}
+              className="delete-button"
+            >
+              Reset All Data
+            </button>
           </div>
         </div>
       )}
