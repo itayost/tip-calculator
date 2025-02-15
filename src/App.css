@@ -128,7 +128,7 @@ table {
   border-collapse: collapse;
   background-color: white;
   border-radius: 0.5rem;
-  position: revert-layer;
+  position: relative;
 
 }
 
@@ -258,9 +258,9 @@ th {
   }
   
   table {
-    display: inline-block;
+    width: 100%;
     overflow-x: auto;
-    position: static;
+    position: relative;
     white-space: nowrap;
   }
 }
