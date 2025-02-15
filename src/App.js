@@ -109,7 +109,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="app-header">
-        <h1>Restaurant Tip Calculator</h1>
+        <h1>Tip Calculator</h1>
       </div>
       
       <TipInput
@@ -135,10 +135,10 @@ function App() {
 
       {workers.length > 0 && (
         <div className="results-section">
+          <div className="summary">
           <div className="section-header">
             <h2>Distribution</h2>
           </div>
-          <div className="summary">
             <div className="table-container">
               <WorkerTable
                 workers={workers}
@@ -148,7 +148,7 @@ function App() {
                 onDelete={handleDeleteWorker}
               />
             </div>
-            <p>Total Effective Hours: {totalEffectiveHours.toFixed(2)}</p>
+            <p>Total Hours: {totalEffectiveHours.toFixed(2)}</p>
             <p>100% per Hour: {formatCurrency(tipPerHour)}</p>
             <p>70% per Hour: {formatCurrency(tipPerHour * 0.7)}</p>
             <div className="button-container">
