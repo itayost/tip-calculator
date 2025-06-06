@@ -158,6 +158,11 @@ function App() {
               >
                 Print Summary
               </button>
+              <button className="delete-button"
+              onClick={handleResetAll}
+            >
+              Reset All Data
+            </button>
             </div>
           </div>
 
@@ -167,15 +172,6 @@ function App() {
             tipPerHour={tipPerHour}
             formatCurrency={formatCurrency}
           />
-          
-          <div className="button-container">
-            <button 
-              onClick={handleResetAll}
-              className="delete-button"
-            >
-              Reset All Data
-            </button>
-          </div>
         </div>
       )}
     </div>

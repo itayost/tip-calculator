@@ -121,6 +121,8 @@ button:hover {
 
 /* Table */
 .table-container {
+  display: flex;
+  justify-content: space-evenly;
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
@@ -131,7 +133,6 @@ button:hover {
 }
 
 table {
-  align-self: center;
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
