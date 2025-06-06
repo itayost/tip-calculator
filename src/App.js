@@ -197,11 +197,6 @@ function App() {
     [workers]
   );
   
-  const totalEffectiveHours = useMemo(() => 
-    workers.reduce((sum, worker) => sum + worker.hours * worker.percentage, 0), 
-    [workers]
-  );
-  
   const totalDistributed = useMemo(() => 
     workers.reduce((sum, worker) => 
       sum + (worker.hours * worker.percentage * tipPerHour), 0
