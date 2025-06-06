@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback } from 'react';
 
 export const WorkerForm = ({ 
   editingId, 
@@ -14,137 +14,149 @@ export const WorkerForm = ({
   handleCancel,
   totalHours = 0
 }) => {
-  const [showWarning, setShowWarning] = useState(false);
-  
-  const validateField = (field, value) => {
+  // Validate field
+  const validateField = useCallback((field, value) => {
     switch (field) {
-      case 'hours':
-        const numHours = parseFloat(value);
-        if (isNaN(numHours)) {
-          return 'Please enter a valid number';
-        }
-        if (numHours < 0) {
-          return 'Hours cannot be negative';
-        }
-        if (numHours > 12) {
-          setShowWarning(true);
-        } else {
-          setShowWarning(false);
-        }
-        break;
       case 'name':
         if (!value.trim()) {
-          return 'Name is required';
+          return 'נא להזין שם';
         }
-        if (value.length < 2) {
-          return 'Name must be at least 2 characters';
+        if (value.trim().length < 2) {
+          return 'שם חייב להכיל לפחות 2 תווים';
+        }
+        break;
+      case 'hours':
+        const numHours = parseFloat(value);
+        if (value === '' || isNaN(numHours)) {
+          return 'נא להזין שעות';
+        }
+        if (numHours <= 0) {
+          return 'שעות חייבות להיות גדולות מ-0';
+        }
+        if (numHours > 24) {
+          return 'שעות לא יכולות לעלות על 24';
         }
         break;
       default:
         break;
     }
     return null;
-  };
+  }, []);
 
-  const handleFieldChange = (field, value, setter) => {
+  // Handle field change
+  const handleFieldChange = useCallback((field, value, setter) => {
     const error = validateField(field, value);
     setter(value);
     setErrors(prev => ({
       ...prev,
       [field]: error
     }));
-  };
+  }, [validateField, setErrors]);
 
-  const handleHoursChange = (e) => {
-    let value = e.target.value;
-    // Allow empty input and decimals
-    if (value === '' || value === '.') {
-      handleFieldChange('hours', value, setHours);
-      return;
-    }
-
-    // Only allow numbers and one decimal point
-    if (!/^\d*\.?\d*$/.test(value)) {
-      return;
-    }
-
+  // Handle hours input change
+  const handleHoursChange = useCallback((e) => {
+    const value = e.target.value;
     handleFieldChange('hours', value, setHours);
-  };
+  }, [handleFieldChange, setHours]);
 
-  const formatHours = () => {
-    if (hours === '' || hours === '.') return;
+  // Toggle percentage
+  const togglePercentage = useCallback(() => {
+    const newPercentage = percentage === 1.0 ? 0.7 : 1.0;
+    setPercentage(newPercentage);
     
-    const numValue = parseFloat(hours);
-    if (!isNaN(numValue)) {
-      // Round to nearest 0.25
-      const roundedValue = (Math.round(numValue * 4) / 4).toFixed(2);
-      handleFieldChange('hours', roundedValue, setHours);
+    // Haptic feedback
+    if ('vibrate' in navigator) {
+      navigator.vibrate(30);
     }
-  };
+  }, [percentage, setPercentage]);
+
+  // Form submission
+  const onSubmit = useCallback((e) => {
+    e.preventDefault();
+    handleSubmit(e);
+  }, [handleSubmit]);
 
   return (
-    <form onSubmit={handleSubmit} className="input-group">
-      <h2>{editingId ? 'Edit Worker' : 'Add Worker'}</h2>
+    <form onSubmit={onSubmit} className="worker-form input-group">
+      <h2>{editingId ? 'עריכת עובד' : 'הוספת עובד'}</h2>
+      
       <div className="form-content">
+        {/* Name Input */}
         <div className="form-field">
-          <label htmlFor="workerName">Name</label>
+          <label htmlFor="workerName">שם העובד</label>
           <input
             id="workerName"
             type="text"
-            placeholder="Enter worker name"
+            placeholder="הכנס שם"
             value={name}
             onChange={(e) => handleFieldChange('name', e.target.value, setName)}
             className={errors.name ? 'error' : ''}
+            autoCapitalize="words"
+            autoComplete="off"
             required
           />
           {errors.name && <div className="error-message">{errors.name}</div>}
         </div>
         
+        {/* Hours Input */}
         <div className="form-field">
-          <label htmlFor="workerHours">Hours</label>
+          <label htmlFor="workerHours">שעות עבודה</label>
           <input
             id="workerHours"
-            type="text"
-            inputMode="decimal"
-            placeholder="Enter hours (0.25, 0.5, 0.75, etc.)"
+            type="number"
+            step="0.25"
+            min="0"
+            max="24"
+            placeholder="0"
             value={hours}
             onChange={handleHoursChange}
-            onBlur={formatHours}
             className={errors.hours ? 'error' : ''}
             required
           />
           {errors.hours && <div className="error-message">{errors.hours}</div>}
-          {showWarning && !errors.hours && (
-            <div className="warning-message">
-              Warning: Hours entered seem high. Please verify.
-            </div>
-          )}
+          <div className="helper-text">ניתן להזין רבעי שעה (0.25, 0.5, 0.75)</div>
         </div>
 
+        {/* Percentage Toggle */}
         <div className="form-field">
-          <label htmlFor="workerPercentage">Role Percentage</label>
-          <select
-            id="workerPercentage"
-            value={percentage}
-            onChange={(e) => setPercentage(e.target.value)}
-          >
-            <option value={1.0}>Server (100%)</option>
-            <option value={0.7}>Support Staff (70%)</option>
-          </select>
+          <label>אחוז טיפ</label>
+          <div className="percentage-toggle">
+            <button
+              type="button"
+              className={`toggle-option ${percentage === 1.0 ? 'active' : ''}`}
+              onClick={() => percentage !== 1.0 && togglePercentage()}
+            >
+              100%
+              <span className="toggle-label">מלצר</span>
+            </button>
+            <button
+              type="button"
+              className={`toggle-option ${percentage === 0.7 ? 'active' : ''}`}
+              onClick={() => percentage !== 0.7 && togglePercentage()}
+            >
+              70%
+              <span className="toggle-label">עוזר</span>
+            </button>
+          </div>
         </div>
 
+        {/* Action Buttons */}
         <div className="button-container">
-          <button type="submit" disabled={Object.keys(errors).some(k => errors[k])}>
-            {editingId ? 'Update Worker' : 'Add Worker'}
+          <button 
+            type="submit" 
+            disabled={Object.keys(errors).some(k => errors[k])}
+            className="submit-btn"
+          >
+            {editingId ? 'עדכן עובד' : 'הוסף עובד'}
           </button>
           
           {editingId && (
             <button 
               type="button" 
               onClick={handleCancel}
-              className="delete-button"
+              className="cancel-btn"
             >
-              Cancel
+              ביטול
             </button>
           )}
         </div>
