@@ -16,6 +16,9 @@ export const WorkerTable = ({
     setSelectedWorker(worker);
     setShowBottomSheet(true);
     
+    // Add class to app container
+    document.querySelector('.app-container')?.classList.add('bottom-sheet-open');
+    
     // Prevent body scroll when sheet is open - iOS fix
     const scrollY = window.scrollY;
     document.body.style.position = 'fixed';
@@ -32,6 +35,9 @@ export const WorkerTable = ({
   const closeBottomSheet = useCallback(() => {
     setShowBottomSheet(false);
     setTimeout(() => setSelectedWorker(null), 300); // Clear after animation
+    
+    // Remove class from app container
+    document.querySelector('.app-container')?.classList.remove('bottom-sheet-open');
     
     // Restore body scroll - iOS fix
     const scrollY = document.body.style.top;
