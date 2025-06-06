@@ -16,8 +16,11 @@ export const WorkerTable = ({
     setSelectedWorker(worker);
     setShowBottomSheet(true);
     
-    // Prevent body scroll when sheet is open
-    document.body.style.overflow = 'hidden';
+    // Prevent body scroll when sheet is open - iOS fix
+    const scrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
     
     // Haptic feedback
     if ('vibrate' in navigator) {
@@ -30,8 +33,12 @@ export const WorkerTable = ({
     setShowBottomSheet(false);
     setTimeout(() => setSelectedWorker(null), 300); // Clear after animation
     
-    // Restore body scroll
-    document.body.style.overflow = '';
+    // Restore body scroll - iOS fix
+    const scrollY = document.body.style.top;
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
   }, []);
 
   // Handle action selection
