@@ -1,6 +1,7 @@
 {
   "short_name": "Tip Calculator",
   "name": "Restaurant Tip Calculator",
+  "description": "Easy-to-use tip calculator for restaurants. Calculate and distribute tips fairly among staff members.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#3b82f6",
   "background_color": "#ffffff"
 }
