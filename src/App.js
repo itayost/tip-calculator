@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { TipInput } from './components/TipInput';
 import { WorkerForm } from './components/WorkerForm';
 import { WorkerTable } from './components/WorkerTable';
-import PrintSummary from './components/PrintSummary';
+import { PDFExport } from './components/PDFExport';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { calculateTipPerHour, formatCurrency } from './utils/calculations';
 import './App.css';
@@ -295,12 +295,11 @@ function App() {
             </div>
             
             <div className="button-container">
-              <button 
-                onClick={() => window.print()}
-                className="print-button"
-              >
-                הדפס סיכום
-              </button>
+              <PDFExport 
+                workers={workers}
+                totalTips={totalTips}
+                tipPerHour={tipPerHour}
+              />
               <button 
                 className="delete-button"
                 onClick={handleResetAll}
@@ -309,13 +308,6 @@ function App() {
               </button>
             </div>
           </div>
-
-          <PrintSummary 
-            workers={workers}
-            totalTips={totalTips}
-            tipPerHour={tipPerHour}
-            formatCurrency={formatCurrency}
-          />
         </div>
       )}
     </div>

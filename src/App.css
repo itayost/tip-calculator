@@ -407,7 +407,7 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 }
 
-/* Print Styles - PDF Export Ready */
+/* Print Styles - For PDF Export */
 @media print {
   body {
     background: white;
@@ -419,21 +419,8 @@ input[type="number"]::-webkit-outer-spin-button {
     max-width: 100%;
   }
   
-  .no-print,
-  .action-buttons,
-  .fab,
-  button,
-  input,
-  select {
+  .no-print {
     display: none !important;
-  }
-  
-  .print-only {
-    display: block !important;
-  }
-  
-  table {
-    page-break-inside: avoid;
   }
 }
 
@@ -753,6 +740,114 @@ input[type="number"]::-webkit-outer-spin-button {
   .table-summary {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+
+/* PDF Export Component Styles */
+.export-pdf-btn {
+  background-color: var(--text-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.btn-icon {
+  font-size: var(--font-lg);
+}
+
+/* Export Modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 90;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.export-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--card-background);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-xl);
+  width: 90%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: var(--shadow-lg);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: var(--font-xl);
+}
+
+.close-modal {
+  width: 2.5rem;
+  height: 2.5rem;
+  min-height: auto;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-lg);
+}
+
+.modal-content .form-field {
+  margin-bottom: var(--spacing-lg);
+}
+
+.shift-toggle {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+}
+
+.generate-pdf-btn {
+  flex: 2;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
 }
 
 /* Utility Classes */
