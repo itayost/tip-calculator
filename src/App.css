@@ -1,411 +1,464 @@
+/* Mobile-First CSS Reset and Variables */
 :root {
-  --primary-color: #3b82f6;      /* Bright blue */
-  --primary-hover: #2563eb;      /* Darker blue for hover */
-  --danger-color: #f43f5e;       /* Softer red */
-  --danger-hover: #e11d48;       /* Darker red for hover */
-  --warning-color: #f59e0b;      /* Amber */
-  --background-color: #f8fafc;   /* Very light gray with slight blue tint */
-  --card-background: #ffffff;    /* Pure white */
-  --text-color: #334155;         /* Soft black with blue undertone */
-  --border-color: #e2e8f0;       /* Light gray for borders */
+  /* Colors */
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --danger-color: #f43f5e;
+  --danger-hover: #e11d48;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --background-color: #f8fafc;
+  --card-background: #ffffff;
+  --text-color: #334155;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Typography */
+  --font-sm: 0.875rem;
+  --font-base: 1rem;
+  --font-lg: 1.125rem;
+  --font-xl: 1.25rem;
+  --font-2xl: 1.5rem;
+  
+  /* Mobile-specific */
+  --touch-target: 44px;
+  --navbar-height: 56px;
+  --safe-area-inset-top: env(safe-area-inset-top, 0);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0);
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
 }
 
-/* Base styles */
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
   padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--font-base);
+  color: var(--text-color);
+  background-color: var(--background-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior-y: contain;
+  /* Account for safe areas */
+  padding-top: var(--safe-area-inset-top);
 }
 
-/* Layout */
+/* App Container - Mobile First */
 .app-container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1rem;
-  background-color: var(--card-background);
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  position: relative;
+  padding-bottom: calc(var(--touch-target) + var(--spacing-lg) + var(--safe-area-inset-bottom));
 }
 
+/* App Header - Mobile Optimized */
 .app-header {
-  margin-bottom: 2rem;
+  background-color: var(--card-background);
+  padding: var(--spacing-md) var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .app-header h1 {
   margin: 0;
+  font-size: var(--font-xl);
+  font-weight: 600;
   text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
+  color: var(--text-color);
 }
 
-/* Form Elements */
-.input-group {
-  margin-bottom: 1.5rem;
-  padding: 1.5rem;
-  background-color: var(--background-color);
-  border-radius: 0.5rem;
+.last-updated {
   text-align: center;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  margin-top: var(--spacing-xs);
 }
 
+/* Card Layout - Mobile First */
+.input-group,
+.summary {
+  background-color: var(--card-background);
+  margin: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Form Elements - Touch Optimized */
 .form-field {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-lg);
 }
 
 .form-field label {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.5rem;
+  display: block;
   font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-base);
 }
 
-input, select {
-  box-sizing: border-box;
+input,
+select,
+button {
   width: 100%;
-  padding: 0.75rem;
+  min-height: var(--touch-target);
+  padding: var(--spacing-md);
+  font-size: var(--font-base);
+  border-radius: var(--border-radius);
   border: 1px solid var(--border-color);
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  background-color: white;
-  margin: 0;
+  background-color: var(--card-background);
+  color: var(--text-color);
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-/* Remove extra padding in Firefox */
-select {
-  -moz-padding-start: 0.75rem;
-}
-
-/* Remove extra padding in IE/Edge */
-select::-ms-expand {
-  display: none;
-}
-
-input:focus, select:focus {
+input:focus,
+select:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-/* Buttons */
+/* Numeric Input - Mobile Keyboard */
+input[type="text"][inputMode="decimal"] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Buttons - Touch Friendly */
 button {
-  text-align: center;
-  padding: 0.75rem 1.5rem;
-  margin: 0.2rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   color: white;
   background-color: var(--primary-color);
+  border: none;
   cursor: pointer;
-  transition: background-color 0.2s;
+  touch-action: manipulation;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
 }
 
-button:hover {
+button:active {
+  transform: scale(0.98);
+}
+
+button:hover:not(:disabled) {
   background-color: var(--primary-hover);
 }
 
-.button-container {
-  display: flex;
-  justify-content: space-evenly;
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
+/* Button Container - Mobile Layout */
+.button-container {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+}
+
+.button-container button {
+  flex: 1;
+}
+
+/* Danger Button */
 .delete-button {
   background-color: var(--danger-color);
 }
 
-.delete-button:hover {
+.delete-button:hover:not(:disabled) {
   background-color: var(--danger-hover);
 }
 
-/* Table */
+/* Table - Mobile Optimized */
 .table-container {
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
+  margin: 0 -var(--spacing-md);
   overflow-x: auto;
-  overflow-y: hidden;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  background-color: white;
-  margin-bottom: 1.5rem;
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background-color: white;
+  border-collapse: collapse;
+  font-size: var(--font-sm);
+}
+
+th,
+td {
+  padding: var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
 }
 
 th {
   background-color: var(--background-color);
   font-weight: 600;
-  padding: 1.25rem 1rem;
-  text-align: center;
-  border-bottom: 2px solid var(--border-color);
-  color: var(--text-color);
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
-td {
-  padding: 1rem;
-  text-align: center;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--text-color);
-}
-
-tr:last-child td {
-  border-bottom: none;
-}
-
-tr:hover {
-  background-color: var(--background-color);
-  transition: background-color 0.2s ease;
-}
-
-/* Column specific widths */
-th:nth-child(1), td:nth-child(1) { width: 30%; } /* Name */
-th:nth-child(2), td:nth-child(2) { width: 20%; } /* Hours */
-th:nth-child(3), td:nth-child(3) { width: 20%; } /* Percentage */
-th:nth-child(4), td:nth-child(4) { width: 30%; } /* Amount */
-
-/* Worker Name Dropdown */
-.worker-name-container {
-  position: static;
-
-}
-
+/* Worker Name - Clickable but not button-like */
 .worker-name {
-  position: static;
-  background: none;
+  background: none !important;
   border: none;
   padding: 0;
   margin: 0;
   font: inherit;
-  color: var(--text-color);
+  color: var(--text-color) !important;
   cursor: pointer;
-  text-align: center;
+  text-align: left;
+  width: 100%;
+  text-decoration: none;
+  font-weight: normal !important;
 }
 
 .worker-name:hover {
-  background: none;
+  background: none !important;
+  color: var(--text-color) !important;
   text-decoration: underline;
 }
 
+.worker-name:active {
+  background: none !important;
+  transform: none !important;
+}
+
+/* Dropdown Menu - Mobile Optimized */
 .dropdown-menu {
-  position: absolute;
-  background-color: white;
-  border: 1px solid var(--border-color);
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  min-width: 120px;
+  position: fixed;
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  z-index: 100;
+  overflow: hidden;
 }
 
 .dropdown-item {
-  position: static;
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 0.75rem 1rem;
-  border: none;
-  background: none;
-  color: var(--text-color);
-  cursor: pointer;
-  min-width: unset;
-  border-radius: 0;
+  padding: var(--spacing-md) var(--spacing-lg);
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: background-color 0.2s;
 }
 
-.dropdown-item:hover {
+.dropdown-item:active {
   background-color: var(--background-color);
 }
 
-.dropdown-item.delete {
-  color: var(--danger-color);
+/* Summary Stats - Mobile Cards */
+.summary-stats {
+  display: grid;
+  gap: var(--spacing-md);
+  margin: var(--spacing-lg) 0;
 }
 
-.dropdown-item.delete:hover {
-  background-color: #fee2e2;
-}
-
-/* Summary Section */
-
-.results-section {
-  width: 100%;
-
-}
-.results-section h2 {
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.summary {
-  padding: 1rem;
+.summary-stats p {
+  margin: 0;
+  padding: var(--spacing-md);
   background-color: var(--background-color);
-  border-radius: 0.5rem;
-  margin-bottom: 1.5rem;
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.summary p {
-  text-align: center;
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
-  font-weight: 500;
+.summary-stats strong {
+  font-weight: 600;
+  color: var(--primary-color);
 }
 
-/* Messages */
+/* Error and Warning Messages */
+.error-message,
+.warning-message {
+  font-size: var(--font-sm);
+  margin-top: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+}
+
 .error-message {
   color: var(--danger-color);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+  background-color: rgba(244, 63, 94, 0.1);
 }
 
 .warning-message {
   color: var(--warning-color);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+  background-color: rgba(245, 158, 11, 0.1);
 }
 
-.info-message {
-  color: var(--text-color);
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-  opacity: 0.8;
-}
-
-
-
-
-
-/* Print styles */
-@media print {
-  /* Hide non-printable elements */
-  .input-group,
-  .button-container,
-  .worker-name button,
-  .dropdown-menu {
-    display: none !important;
-  }
-
-  /* Reset page styles */
-  .app-container {
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    max-width: none;
-  }
-
-  /* Print summary styles */
-  .print-summary {
-    padding: 20px;
-  }
-
-  .print-header {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  .print-header h1 {
-    font-size: 24px;
-    margin: 0;
-  }
-
-  .print-date {
-    font-size: 14px;
-    color: #666;
-    margin: 8px 0 0 0;
-  }
-
-  .print-overview {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    margin: 2rem 0;
-    padding: 1rem;
-    border: 1px solid #eee;
-    border-radius: 4px;
-  }
-
-  .overview-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .overview-item span {
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 4px;
-  }
-
-  .overview-item strong {
-    font-size: 16px;
-  }
-
-  .print-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 2rem 0;
-  }
-
-  .print-table th,
-  .print-table td {
-    padding: 8px;
-    border: 1px solid #eee;
-    text-align: left;
-  }
-
-  .print-table th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-  }
-
-  .print-footer {
-    text-align: center;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid #eee;
-    font-size: 12px;
-    color: #666;
-  }
-
-  /* Ensure page breaks don't split rows */
-  tr {
-    page-break-inside: avoid;
-  }
-
-  /* Add page numbers */
-  @page {
-    margin: 2cm;
-  }
-}
-
-/* Screen-only print button */
-.print-button {
+/* Action Buttons - Mobile Specific */
+.action-buttons {
+  position: fixed;
+  bottom: var(--safe-area-inset-bottom);
+  left: 0;
+  right: 0;
+  padding: var(--spacing-md);
+  background-color: var(--card-background);
+  box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.1);
   display: flex;
-  justify-self: center;
-  gap: 0.5rem;
-  margin-bottom: 0.7rem;
-  background-color: var(--text-color);
-  color: white;
+  gap: var(--spacing-sm);
+  z-index: 20;
 }
 
-.print-button:hover {
-  background-color: var(--text-color);
-  opacity: 0.9;
+/* Floating Action Button (FAB) */
+.fab {
+  position: fixed;
+  bottom: calc(var(--spacing-lg) + var(--safe-area-inset-bottom));
+  right: var(--spacing-lg);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-xl);
+  z-index: 30;
 }
 
-/* Hide print summary on screen */
-.print-summary {
-  display: none;
+/* Loading State */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s ease-in-out infinite;
 }
 
-@media print {
-  .print-button {
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Landscape Mode Adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+  .app-header {
+    position: relative;
+  }
+  
+  .input-group,
+  .summary {
+    margin: var(--spacing-sm);
+    padding: var(--spacing-md);
+  }
+  
+  .form-field {
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Tablet and Desktop - Progressive Enhancement */
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+  }
+  
+  .app-header {
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .app-header h1 {
+    font-size: var(--font-2xl);
+  }
+  
+  table {
+    font-size: var(--font-base);
+  }
+  
+  .action-buttons {
+    position: static;
+    box-shadow: none;
+    padding: 0;
+    margin-top: var(--spacing-lg);
+  }
+  
+  .fab {
     display: none;
   }
 }
+
+/* Print Styles - PDF Export Ready */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .app-container {
+    padding: 0;
+    max-width: 100%;
+  }
+  
+  .no-print,
+  .action-buttons,
+  .fab,
+  button,
+  input,
+  select {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  table {
+    page-break-inside: avoid;
+  }
+}
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.no-print { display: block; }
+.print-only { display: none; }
