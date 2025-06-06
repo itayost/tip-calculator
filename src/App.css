@@ -224,32 +224,6 @@ th {
   z-index: 1;
 }
 
-/* Worker Name - Clickable but not button-like */
-.worker-name {
-  background: none !important;
-  border: none;
-  padding: 0;
-  margin: 0;
-  font: inherit;
-  color: var(--text-color) !important;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  text-decoration: none;
-  font-weight: normal !important;
-}
-
-.worker-name:hover {
-  background: none !important;
-  color: var(--text-color) !important;
-  text-decoration: underline;
-}
-
-.worker-name:active {
-  background: none !important;
-  transform: none !important;
-}
-
 /* Dropdown Menu - Mobile Optimized */
 .dropdown-menu {
   position: fixed;
@@ -562,6 +536,223 @@ input[type="number"]::-webkit-outer-spin-button {
 .cancel-btn {
   background-color: var(--text-secondary);
   flex: 1;
+}
+
+/* WorkerTable Component Styles */
+.worker-table-container {
+  position: relative;
+  margin: 0 -var(--spacing-md);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.worker-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-base);
+}
+
+.worker-table th,
+.worker-table td {
+  padding: var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.worker-table th {
+  background-color: var(--background-color);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.worker-row {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.worker-row:active {
+  background-color: var(--background-color);
+}
+
+.worker-name-cell {
+  font-weight: 500;
+}
+
+.hours-cell,
+.percentage-cell,
+.amount-cell {
+  text-align: center;
+}
+
+.amount-cell {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* Percentage Badge */
+.percentage-badge {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 12px;
+  font-size: var(--font-sm);
+  font-weight: 500;
+}
+
+.percentage-badge.full {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.percentage-badge.partial {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+/* Bottom Sheet */
+.bottom-sheet-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 90;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--card-background);
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  padding: var(--spacing-md);
+  padding-bottom: calc(var(--spacing-xl) + var(--safe-area-inset-bottom));
+  z-index: 100;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.bottom-sheet.open {
+  transform: translateY(0);
+}
+
+.bottom-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background-color: var(--border-color);
+  border-radius: 2px;
+  margin: 0 auto var(--spacing-lg);
+}
+
+.bottom-sheet-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.bottom-sheet-header h3 {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--font-xl);
+  color: var(--text-color);
+}
+
+.worker-details {
+  margin: 0 0 var(--spacing-sm);
+  color: var(--text-secondary);
+  font-size: var(--font-base);
+}
+
+.worker-amount {
+  margin: 0;
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.bottom-sheet-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.sheet-action-btn {
+  width: 100%;
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  font-size: var(--font-base);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  transition: all 0.2s;
+  min-height: calc(var(--touch-target) * 1.2);
+}
+
+.sheet-action-btn.edit {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.sheet-action-btn.delete {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.sheet-action-btn.cancel {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.action-icon {
+  font-size: var(--font-lg);
+}
+
+/* Table Summary Cards */
+.table-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+  padding: 0 var(--spacing-md);
+}
+
+.summary-card {
+  background-color: var(--background-color);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-xs);
+}
+
+.summary-card.highlight {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.summary-label {
+  font-size: var(--font-sm);
+  opacity: 0.8;
+}
+
+.summary-value {
+  font-size: var(--font-lg);
+  font-weight: 700;
+}
+
+/* Responsive adjustments */
+@media (min-width: 480px) {
+  .table-summary {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 /* Utility Classes */
