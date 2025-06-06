@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 
 export const WorkerTable = ({ 
   workers, 
@@ -76,6 +77,63 @@ export const WorkerTable = ({
     };
   }, { hours: 0, amount: 0, workers100: 0, workers70: 0 });
 
+  // Render bottom sheet using React Portal
+  const renderBottomSheet = () => {
+    if (!showBottomSheet) return null;
+
+    return ReactDOM.createPortal(
+      <>
+        <div 
+          className="bottom-sheet-backdrop"
+          onClick={closeBottomSheet}
+        />
+        <div className={`bottom-sheet ${showBottomSheet ? 'open' : ''}`}>
+          <div className="bottom-sheet-handle" />
+          
+          {selectedWorker && (
+            <>
+              <div className="bottom-sheet-header">
+                <h3>{selectedWorker.name}</h3>
+                <p className="worker-details">
+                  {selectedWorker.hours} שעות • {selectedWorker.percentage === 1 ? '100%' : '70%'}
+                </p>
+                <p className="worker-amount">
+                  {formatCurrency(selectedWorker.hours * selectedWorker.percentage * tipPerHour)}
+                </p>
+              </div>
+              
+              <div className="bottom-sheet-actions">
+                <button 
+                  onClick={() => handleAction('edit')}
+                  className="sheet-action-btn edit"
+                >
+                  <span className="action-icon">✏️</span>
+                  <span>ערוך פרטי עובד</span>
+                </button>
+                
+                <button 
+                  onClick={() => handleAction('delete')}
+                  className="sheet-action-btn delete"
+                >
+                  <span className="action-icon">🗑️</span>
+                  <span>מחק עובד</span>
+                </button>
+                
+                <button 
+                  onClick={closeBottomSheet}
+                  className="sheet-action-btn cancel"
+                >
+                  ביטול
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </>,
+      document.body
+    );
+  };
+
   return (
     <>
       <div className="worker-table-container">
@@ -134,57 +192,8 @@ export const WorkerTable = ({
         </div>
       </div>
 
-      {/* Bottom Sheet */}
-      {showBottomSheet && (
-        <>
-          <div 
-            className="bottom-sheet-backdrop"
-            onClick={closeBottomSheet}
-          />
-          <div className={`bottom-sheet ${showBottomSheet ? 'open' : ''}`}>
-            <div className="bottom-sheet-handle" />
-            
-            {selectedWorker && (
-              <>
-                <div className="bottom-sheet-header">
-                  <h3>{selectedWorker.name}</h3>
-                  <p className="worker-details">
-                    {selectedWorker.hours} שעות • {selectedWorker.percentage === 1 ? '100%' : '70%'}
-                  </p>
-                  <p className="worker-amount">
-                    {formatCurrency(selectedWorker.hours * selectedWorker.percentage * tipPerHour)}
-                  </p>
-                </div>
-                
-                <div className="bottom-sheet-actions">
-                  <button 
-                    onClick={() => handleAction('edit')}
-                    className="sheet-action-btn edit"
-                  >
-                    <span className="action-icon">✏️</span>
-                    <span>ערוך פרטי עובד</span>
-                  </button>
-                  
-                  <button 
-                    onClick={() => handleAction('delete')}
-                    className="sheet-action-btn delete"
-                  >
-                    <span className="action-icon">🗑️</span>
-                    <span>מחק עובד</span>
-                  </button>
-                  
-                  <button 
-                    onClick={closeBottomSheet}
-                    className="sheet-action-btn cancel"
-                  >
-                    ביטול
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </>
-      )}
+      {/* Bottom Sheet Portal */}
+      {renderBottomSheet()}
     </>
   );
 };
