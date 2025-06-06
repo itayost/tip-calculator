@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { formatCurrency } from '../utils/calculations';
 
 export const PDFExport = ({ workers, totalTips, tipPerHour }) => {
   const [showExportModal, setShowExportModal] = useState(false);
@@ -7,6 +6,14 @@ export const PDFExport = ({ workers, totalTips, tipPerHour }) => {
   const [shiftDate, setShiftDate] = useState(new Date().toISOString().split('T')[0]);
   const [shiftType, setShiftType] = useState('ערב');
   const [managerName, setManagerName] = useState('');
+  
+  // Format currency
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('he-IL', {
+      style: 'currency',
+      currency: 'ILS'
+    }).format(amount);
+  };
 
   // Calculate totals
   const totals = workers.reduce((acc, worker) => {
@@ -51,18 +58,6 @@ export const PDFExport = ({ workers, totalTips, tipPerHour }) => {
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 2px solid #ddd;
-          }
-          
-          .logo-placeholder {
-            width: 120px;
-            height: 60px;
-            margin: 0 auto 20px;
-            border: 2px dashed #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 12px;
           }
           
           h1 {
@@ -179,7 +174,6 @@ export const PDFExport = ({ workers, totalTips, tipPerHour }) => {
       </head>
       <body>
         <div class="header">
-          <div class="logo-placeholder">לוגו</div>
           <h1>דוח חלוקת טיפים</h1>
           <h2>${restaurantName || 'שם המסעדה'}</h2>
         </div>
@@ -351,13 +345,6 @@ export const PDFExport = ({ workers, totalTips, tipPerHour }) => {
               <div className="form-field">
                 <label>משמרת</label>
                 <div className="shift-toggle">
-                  <button
-                    type="button"
-                    className={`toggle-option ${shiftType === 'בוקר' ? 'active' : ''}`}
-                    onClick={() => setShiftType('בוקר')}
-                  >
-                    בוקר
-                  </button>
                   <button
                     type="button"
                     className={`toggle-option ${shiftType === 'צהריים' ? 'active' : ''}`}
